@@ -4,6 +4,7 @@ import cv2
 from sklearn import cluster
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
+import matplotlib.colors as pltcol
 from mpl_toolkits.mplot3d import axes3d
 import numpy as np
 
@@ -125,4 +126,6 @@ colors = dc.dominantColors()
 dc.plotHistogram()
 print(colors)
 
+hsv_colors = pltcol.rgb_to_hsv(colors/255)*255
+print(hsv_colors)
 
