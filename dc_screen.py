@@ -108,24 +108,33 @@ class DominantColors:
             cv2.rectangle(chart, (int(start), 0), (int(end), 50), (r,g,b), -1)
             start = end	
         
-        #display chart
-        plt.figure()
-        plt.axis("off")
+        # #display chart
+        # plt.figure()
+        # plt.axis("off")
         plt.imshow(chart)
-        plt.show()
+        plt.pause(0.01)
+        # plt.show()
 
-img = capture_screenshot()
+# display chart
+plt.figure()
+plt.axis("off")
 
-resize_factor = 8
-img = resize_screenshot(resize_factor, img)
+c = 0
+while c < 50:
 
-clusters = 5
+    img = capture_screenshot()
 
-dc = DominantColors(img,clusters)
-colors = dc.dominantColors()
-dc.plotHistogram()
-print(colors)
+    resize_factor = 8
+    img = resize_screenshot(resize_factor, img)
 
-hsv_colors = pltcol.rgb_to_hsv(colors/255)*255
-print(hsv_colors)
+    clusters = 5
 
+    dc = DominantColors(img,clusters)
+    colors = dc.dominantColors()
+    dc.plotHistogram()
+    print(colors)
+
+    hsv_colors = pltcol.rgb_to_hsv(colors/255)*255
+    print(hsv_colors)
+
+    c += 1
