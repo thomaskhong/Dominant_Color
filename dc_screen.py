@@ -113,8 +113,6 @@ class DominantColors:
         plt.imshow(chart)
         plt.show()
 
-
-
 img = capture_screenshot()
 
 resize_factor = 8
