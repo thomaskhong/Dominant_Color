@@ -139,7 +139,8 @@ while c < 50:
 #    print(colors)
 
     hsv_colors = pltcol.rgb_to_hsv(colors/255)*255
-    accent_color_index = np.where(hsv_colors == max(hsv_colors[:,2]))[0][0]
+    hsv_distance = ((hsv_colors[:,1]**2)+(hsv_colors[:,2]**2))**0.5
+    accent_color_index = np.where(hsv_distance == max(hsv_distance))[0][0]
     plt.figure(2)
     accent_chart = np.zeros((50, 500, 3), np.uint8)
     color_square = cv2.rectangle(accent_chart, (0,0), (500, 50), (int(colors[accent_color_index,0]), int(colors[accent_color_index,1]), int(colors[accent_color_index,2])), -1)
