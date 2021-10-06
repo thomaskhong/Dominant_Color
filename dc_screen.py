@@ -123,8 +123,8 @@ plt.figure(1)
 plt.figure(2)
 plt.axis("off")
 
-c = 0
-while c < 50:
+
+while True:
 
     img = capture_screenshot()
 
@@ -141,11 +141,10 @@ while c < 50:
     hsv_colors = pltcol.rgb_to_hsv(colors/255)*255
     hsv_distance = ((hsv_colors[:,1]**2)+(hsv_colors[:,2]**2))**0.5
     accent_color_index = np.where(hsv_distance == max(hsv_distance))[0][0]
+    dominant_color = colors[accent_color_index,:]
     plt.figure(2)
     accent_chart = np.zeros((50, 500, 3), np.uint8)
-    color_square = cv2.rectangle(accent_chart, (0,0), (500, 50), (int(colors[accent_color_index,0]), int(colors[accent_color_index,1]), int(colors[accent_color_index,2])), -1)
+    color_square = cv2.rectangle(accent_chart, (0,0), (500, 50), (int(dominant_color[0]), int(dominant_color[1]), int(dominant_color[2])), -1)
     # color_square = cv2.rectangle(accent_chart, (0,0), (500, 50), (0,0,0), -1)
     plt.imshow(color_square)
     plt.pause(0.01)
-
-    c += 1
