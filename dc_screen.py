@@ -35,7 +35,9 @@ def connect_arduino():
             port_index = (port_description.index(i))
     serial_port = serial.Serial(port = str(com_ports[port_index]), baudrate=9600)
     return serial_port
-    
+
+def write_arduino(send_data,serial_port):
+    serial_port.write(bytes(send_data,'utf-8'))
 
 class DominantColors:
 
@@ -136,6 +138,9 @@ plt.figure(1)
 plt.figure(2)
 plt.axis("off")
 
+counter = 0
+
+arduino_serialport = connect_arduino()
 
 while True:
 
@@ -161,3 +166,24 @@ while True:
     # color_square = cv2.rectangle(accent_chart, (0,0), (500, 50), (0,0,0), -1)
     plt.imshow(color_square)
     plt.pause(0.01)
+
+    if dominant_color[0] < 100:
+        red_val = '0' + str(dominant_color[0])
+    else:
+        red_val = str(dominant_color[0])
+
+    if dominant_color[1] < 100:
+        green_val = '0' + str(dominant_color[1])
+    else:
+        green_val = str(dominant_color[1])
+
+    if dominant_color[2] < 100:
+        blue_val = '0' + str(dominant_color[2])
+    else:
+        blue_val = str(dominant_color[2])
+    
+    send_data = red_val + green_val + blue_val
+    write_arduino(send_data,arduino_serialport)
+
+
+
