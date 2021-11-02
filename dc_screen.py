@@ -11,10 +11,12 @@ import numpy as np
 import serial.tools.list_ports
 import serial
 
+import time
+
 def capture_screenshot():
     # Capture entire screen
     with mss() as sct:
-        monitor = sct.monitors[1]
+        monitor = sct.monitors[2]
         sct_img = sct.grab(monitor)
         # Convert to PIL/Pillow Image
         return Image.frombytes('RGB', sct_img.size, sct_img.bgra, 'raw', 'BGRX')
@@ -167,23 +169,33 @@ while True:
     plt.imshow(color_square)
     plt.pause(0.01)
 
-    if dominant_color[0] < 100:
+    if dominant_color[0] < 10:
+        red_val = '00' + str(dominant_color[0])
+    elif dominant_color[0] < 100:
         red_val = '0' + str(dominant_color[0])
     else:
         red_val = str(dominant_color[0])
 
-    if dominant_color[1] < 100:
+    if dominant_color[1] < 10:
+        green_val = '00' + str(dominant_color[1])
+    elif dominant_color[1] < 100:
         green_val = '0' + str(dominant_color[1])
     else:
         green_val = str(dominant_color[1])
 
-    if dominant_color[2] < 100:
+    if dominant_color[2] < 10:
+        blue_val = '00' + str(dominant_color[2])
+    elif dominant_color[2] < 100:
         blue_val = '0' + str(dominant_color[2])
     else:
         blue_val = str(dominant_color[2])
     
     send_data = red_val + green_val + blue_val
+
+    print(send_data)
+
     write_arduino(send_data,arduino_serialport)
+    time.sleep(3)
 
 
 
