@@ -8,10 +8,13 @@ import matplotlib.colors as pltcol
 from mpl_toolkits.mplot3d import axes3d
 import numpy as np
 
+import serial.tools.list_ports
+import serial
+
 def capture_screenshot():
     # Capture entire screen
     with mss() as sct:
-        monitor = sct.monitors[2]
+        monitor = sct.monitors[1]
         sct_img = sct.grab(monitor)
         # Convert to PIL/Pillow Image
         return Image.frombytes('RGB', sct_img.size, sct_img.bgra, 'raw', 'BGRX')
@@ -23,6 +26,16 @@ def resize_screenshot(scale_factor, image):
     resized_image = image.resize((baseheight, hsize), Image.ANTIALIAS)
     return np.array(resized_image)
 
+def connect_arduino():
+    ports = list(serial.tools.list_ports.comports())
+    com_ports = [p.device for p in ports]
+    port_description = [p.description for p in ports]
+    for i in port_description:
+        if "CH340" in i:
+            port_index = (port_description.index(i))
+    serial_port = serial.Serial(port = str(com_ports[port_index]), baudrate=9600)
+    return serial_port
+    
 
 class DominantColors:
 
